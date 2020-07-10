@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">USGS earthquakes API - using retrofit</string>
+    <string name="welcome_to_the_usgs_service">Welcome to the USGS service!</string>
+    <string name="this_application_enables_you_to_review_earthquakes_data_collected_by_the_usgs_n_you_can_view_all_earthquake_that_happened_inside_a_certain_time_frame">This application enables you to review earthquakes data collected by the USGS. \n You can view all earthquake that happened inside a certain time frame.</string>
+    <string name="enter_the_time_frame_here">Enter the time frame here!</string>
+    <string name="start_time_title">Start time:</string>
+    <string name="end_time_title">End time:</string>
+    <string name="search">Search</string>
+    <string name="new_search">New search</string>
 </resources>
