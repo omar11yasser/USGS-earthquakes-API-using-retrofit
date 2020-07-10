@@ -17,7 +17,7 @@ class MainPresenter(val view: MainContract.View) : MainContract.Presenter, KoinC
         if (!validate(starttime) || !validate(endtime))
             return
         view.showLoading()
-        mApiService.getEarthQuakes( format = format ,startTime = starttime, endTime = endtime)
+        mApiService.getEarthQuakes( format = format ,startTime = starttime, endTime = endtime , limit = 10)
             .enqueue(object : retrofit2.Callback<EarthquakeModel?> {
                 override fun onResponse(
                     call: Call<EarthquakeModel?>,
@@ -26,13 +26,14 @@ class MainPresenter(val view: MainContract.View) : MainContract.Presenter, KoinC
                     if (!response.isSuccessful) {
                         return
                     }
+                    Log.d(javaClass.simpleName , response.message())
                     val earthquakes: EarthquakeModel? = response.body()
                     if (earthquakes == null){
                         Log.d(javaClass.simpleName , "Earthquake is null!")
                     } else Log.d(javaClass.simpleName , "Earthquake is not null!")
-                    val featuresList : List<Feature>? = earthquakes?.features
+                    val featuresList : List<Feature> = earthquakes!!.features
                     view.showResult(
-                        featuresList
+                        featuresList , response
                     )
                 }
 

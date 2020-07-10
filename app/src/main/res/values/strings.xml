@@ -7,4 +7,7 @@
     <string name="end_time_title">End time:</string>
     <string name="search">Search</string>
     <string name="new_search">New search</string>
+    <string name="place_holder">Place holder</string>
+    <string name="_10">10</string>
+    <string name="please_make_sure_to_enter_the_dates_in_the_following_format_n_yyyy_dd_mm_n_and_that_the_end_date_is_set_after_the_start_date">Please make sure to enter the dates in the following format: \n YYYY-dd-mm \n and that the end date is set after the start date!</string>
 </resources>

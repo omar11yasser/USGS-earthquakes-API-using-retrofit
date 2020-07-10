@@ -11,26 +11,30 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:padding="5dp"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:text="@string/_10"/>
 
     <TextView
         android:id="@+id/list_row_earthquake_data_vertical_recycler_view_place_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/place_holder"
         android:layout_toEndOf="@id/list_row_earthquake_data_vertical_recycler_view_mag_text_view"
-        android:layout_above="@id/list_row_earthquake_data_vertical_recycler_view_time_text_view"/>
+        android:layout_alignParentTop="true"/>
 
     <TextView
         android:id="@+id/list_row_earthquake_data_vertical_recycler_view_time_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/place_holder"
         android:layout_toEndOf="@id/list_row_earthquake_data_vertical_recycler_view_mag_text_view"
-        android:layout_centerVertical="true"/>
+        android:layout_below="@id/list_row_earthquake_data_vertical_recycler_view_place_text_view"/>
 
     <TextView
         android:id="@+id/list_row_earthquake_data_vertical_recycler_view_tsunami_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/place_holder"
         android:layout_toEndOf="@id/list_row_earthquake_data_vertical_recycler_view_mag_text_view"
         android:layout_below="@id/list_row_earthquake_data_vertical_recycler_view_time_text_view"/>
 

@@ -15,6 +15,7 @@ import com.orange.internship.usgsearthquakesapi_usingretrofit.*
 import com.orange.internship.usgsearthquakesapi_usingretrofit.Adapter.EarthquakesVerticalRecyclerViewAdapter
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity(), MainContract.View {
 
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private lateinit var progressBar: ProgressBar
 
     // Utils & data-containers
-    private var earthquakesList: List<Feature>? = null
+    private lateinit var earthquakesList: List<Feature>
     lateinit var adapter : EarthquakesVerticalRecyclerViewAdapter
     private val mPresenter: MainPresenter by inject { parametersOf(this) }
 
@@ -53,21 +54,29 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         progressBar = findViewById(R.id.activity_main_results_progress_bar)
     }
 
+    // Contains the onClickListeners
     override fun onStart() {
         super.onStart()
+        //On click listener for the search button to begin the request and hide search layout and show the results display layout
         searchButton.setOnClickListener {
             mPresenter.getEartquakes(format = "geojson" ,starttime = startDateEditText.text.toString() , endtime = endDateEditText.text.toString())
         }
+        // On click listener for the new search button to cancel the previous query if it is still running and show the search layout
+        newSearchButton.setOnClickListener {
+            searchConstraintLayout.visibility = View.VISIBLE
+            progressBar.visibility = View.GONE
+            resultsConstraintLayout.visibility = View.GONE
+        }
     }
 
+    // Instantiate the Recycler adapter and setup the recycler view
     private fun recyclerViewAndRecyclerAdapterSetUp(){
-        adapter = EarthquakesVerticalRecyclerViewAdapter(applicationContext , earthquakesList)
-        earthquakesRecyclerView.adapter = adapter
         earthquakesRecyclerView.layoutManager = LinearLayoutManager(applicationContext , RecyclerView.VERTICAL , false)
         earthquakesRecyclerView.hasFixedSize()
         Log.d(javaClass.simpleName , "recyclerViewAndRecyclerAdapterSetUp() finished executing")
     }
 
+    // Show the loading interface when the request begin
     override fun showLoading() {
         recyclerViewAndRecyclerAdapterSetUp()
         searchConstraintLayout.visibility = View.GONE
@@ -79,10 +88,11 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         progressBar.visibility = View.GONE
     }
 
-    override fun showResult(feature: List<Feature>?) {
-        Log.d(javaClass.simpleName , "ShowResult() called!")
-        earthquakesList = feature
-        adapter.notifyDataSetChanged()
+    // add the results to the list and create the adapter and add it to the recycler view
+    override fun showResult(feature: List<Feature> , response: Response<EarthquakeModel?>) {
+        adapter = EarthquakesVerticalRecyclerViewAdapter(applicationContext , feature)
+        earthquakesRecyclerView.adapter = adapter
+        progressBar.visibility = View.GONE
     }
 
     override fun showError(errorMessage: String) {
