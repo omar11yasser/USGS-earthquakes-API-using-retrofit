@@ -4,11 +4,11 @@ class MainContract {
     interface View{
         fun showLoading()
         fun hideLoading()
-        fun showResult(feature: List<Feature>)
+        fun showResult(feature: List<Feature>?)
         fun showError(errorMessage :String)
     }
 
     interface Presenter{
-        fun getEartquakes(starttime : String , endtime : String)
+        fun getEartquakes(format: String , starttime : String , endtime : String)
     }
 }

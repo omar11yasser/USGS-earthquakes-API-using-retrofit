@@ -6,17 +6,18 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 import retrofit2.Call
 import retrofit2.Response
+import java.lang.NullPointerException
 
 
 class MainPresenter(val view: MainContract.View) : MainContract.Presenter, KoinComponent {
     //Inject apiService here
     private val mApiService: UsgsApi by inject()
 
-    override fun getEartquakes(starttime: String, endtime: String) {
+    override fun getEartquakes(format : String ,starttime: String, endtime: String) {
         if (!validate(starttime) || !validate(endtime))
             return
         view.showLoading()
-        mApiService.getEarthQuakes( format = "geojson" ,startTime = starttime, endTime = endtime)
+        mApiService.getEarthQuakes( format = format ,startTime = starttime, endTime = endtime)
             .enqueue(object : retrofit2.Callback<EarthquakeModel?> {
                 override fun onResponse(
                     call: Call<EarthquakeModel?>,
@@ -26,16 +27,17 @@ class MainPresenter(val view: MainContract.View) : MainContract.Presenter, KoinC
                         return
                     }
                     val earthquakes: EarthquakeModel? = response.body()
-                    val place = earthquakes!!.features[0].properties.place
-                    Log.d(javaClass.simpleName , "The place that the earthquake happen is $place")
-                    val featuresList : List<Feature> = earthquakes.features
+                    if (earthquakes == null){
+                        Log.d(javaClass.simpleName , "Earthquake is null!")
+                    } else Log.d(javaClass.simpleName , "Earthquake is not null!")
+                    val featuresList : List<Feature>? = earthquakes?.features
                     view.showResult(
                         featuresList
                     )
                 }
 
-                override fun onFailure(call: Call<EarthquakeModel?>, t: Throwable) {
-
+                override fun onFailure(call: Call<EarthquakeModel?>, t: Throwable)  {
+                    Log.d(javaClass.simpleName ,  "onFailureCalled")
                 }
             })
     }

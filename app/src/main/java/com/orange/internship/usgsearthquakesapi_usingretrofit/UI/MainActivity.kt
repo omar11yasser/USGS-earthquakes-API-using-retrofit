@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private lateinit var progressBar: ProgressBar
 
     // Utils & data-containers
-    private lateinit var earthquakesList: List<Feature>
+    private var earthquakesList: List<Feature>? = null
     lateinit var adapter : EarthquakesVerticalRecyclerViewAdapter
     private val mPresenter: MainPresenter by inject { parametersOf(this) }
 
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onStart() {
         super.onStart()
         searchButton.setOnClickListener {
-            mPresenter.getEartquakes(starttime = startDateEditText.text.toString() , endtime = endDateEditText.text.toString())
+            mPresenter.getEartquakes(format = "geojson" ,starttime = startDateEditText.text.toString() , endtime = endDateEditText.text.toString())
         }
     }
 
@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         progressBar.visibility = View.GONE
     }
 
-    override fun showResult(feature: List<Feature>) {
+    override fun showResult(feature: List<Feature>?) {
         Log.d(javaClass.simpleName , "ShowResult() called!")
         earthquakesList = feature
         adapter.notifyDataSetChanged()
